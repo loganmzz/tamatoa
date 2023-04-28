@@ -1,6 +1,7 @@
 pub mod analyzer;
 pub mod fs;
 pub mod model;
+pub mod output;
 pub mod terraform;
 
 use std::path::Path;

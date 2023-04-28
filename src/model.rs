@@ -4,17 +4,21 @@ use serde_json::Value;
 #[derive(Deserialize,Serialize)]
 pub struct Module {
     id: String,
+    #[serde(default="Vec::new")]
     resources: Vec<Resource>,
+    #[serde(default="Vec::new")]
     modules: Vec<Module>,
 }
 
 #[derive(Deserialize,Serialize)]
 pub struct Resource {
     id: String,
+    #[serde(default)]
     change: Change,
 }
 
 #[derive(Deserialize,Serialize)]
+#[serde(default)]
 pub struct Change {
     before: Value,
     after: Value,
@@ -43,8 +47,17 @@ impl Module {
         &self.id
     }
 
+    pub fn resources(&self) -> &Vec<Resource> {
+        &self.resources
+    }
     pub fn resources_mut(&mut self) -> &mut Vec<Resource> {
         &mut self.resources
+    }
+}
+
+impl Default for Module {
+    fn default() -> Self {
+        Self::new("root")
     }
 }
 
