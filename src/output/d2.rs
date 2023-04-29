@@ -1,5 +1,6 @@
 use eyre::Result;
 use std::fmt::Write;
+use serde_json::to_string;
 
 pub fn write_to_string(model: &crate::model::Module) -> Result<String> {
     let mut output = String::new();
@@ -7,7 +8,7 @@ pub fn write_to_string(model: &crate::model::Module) -> Result<String> {
     write!(output, "  shape: package\n")?;
     write!(output, "\n")?;
     for resource in model.resources() {
-        write!(output, "  {}\n", resource.id())?;
+        write!(output, "  {}\n", to_string(resource.id())?)?;
     }
     write!(output, "}}\n")?;
     Ok(output)
@@ -48,14 +49,14 @@ mod test {
                 "id": "root",
                 "resources": [
                     {
-                        "id": "foo",
+                        "id": "null_resource.foo",
                     },
                 ],
             }),
             r#"root {
   shape: package
 
-  foo
+  "null_resource.foo"
 }
 "#,
         )
@@ -68,18 +69,18 @@ mod test {
                 "id": "root",
                 "resources": [
                     {
-                        "id": "foo",
+                        "id": "null_resource.foo",
                     },
                     {
-                        "id": "bar",
+                        "id": "null_resource.bar",
                     },
                 ],
             }),
             r#"root {
   shape: package
 
-  foo
-  bar
+  "null_resource.foo"
+  "null_resource.bar"
 }
 "#,
         )

@@ -17,8 +17,10 @@ cargo install --path .
 terraform plan -out 'myproject.tfplan' &&
 # Output in JSON format
 terraform show -json 'myproject.tfplan' > 'myproject.tfplan.json' &&
-# Analyse JSON Terraform plan
-tamatoa 'myproject.tfplan.json'
+# Generate D2 diagram
+tamatoa 'myproject.tfplan.json' &&
+# Generate image
+d2 'myproject.tfplan.json.d2' 'myproject.tfplan.svg'
 ```
 
 # Development
